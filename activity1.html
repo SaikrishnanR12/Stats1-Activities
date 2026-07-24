@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#0B1220;
+    --bg:#080D1A;
     --panel:#141B2E;
     --panel-2:#1B2338;
     --text:#EDEFF5;
@@ -18,15 +18,42 @@
     --line:#243049;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;overflow-x:hidden;}
   body{
-    background:var(--bg);
+    position:relative;
+    overflow-x:hidden;
+    background:
+      radial-gradient(1px 1px at 10% 15%, #fff, transparent),
+      radial-gradient(1px 1px at 30% 5%, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 50% 25%, #cfe0ff, transparent),
+      radial-gradient(1px 1px at 70% 8%, #fff, transparent),
+      radial-gradient(1px 1px at 85% 20%, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 15% 40%, #fff, transparent),
+      radial-gradient(1px 1px at 90% 45%, #cfe0ff, transparent),
+      radial-gradient(1px 1px at 45% 60%, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 65% 75%, #fff, transparent),
+      radial-gradient(1px 1px at 5% 80%, #fff, transparent),
+      radial-gradient(1px 1px at 95% 85%, #fff, transparent),
+      radial-gradient(1px 1px at 25% 90%, #fff, transparent),
+      radial-gradient(1px 1px at 60% 95%, #cfe0ff, transparent),
+      radial-gradient(700px 500px at 80% 0%, rgba(45,212,191,.08), transparent 60%),
+      radial-gradient(600px 400px at 10% 0%, rgba(232,163,61,.06), transparent 60%),
+      var(--bg);
+    background-attachment:fixed;
     color:var(--text);
     font-family:'Inter',sans-serif;
     line-height:1.7;
     padding:0 0 80px;
   }
   .mono{font-family:'JetBrains Mono',monospace;}
+
+  .float-sticker{
+    position:absolute;font-size:26px;pointer-events:none;z-index:0;
+    filter:drop-shadow(0 4px 6px rgba(0,0,0,.4));
+  }
+
   nav{
+    position:relative;z-index:2;
     display:flex;justify-content:space-between;align-items:center;
     max-width:920px;margin:0 auto;padding:24px 32px;
     border-bottom:1px solid var(--line);
@@ -44,10 +71,30 @@
   .dropdown:hover .dropdown-menu{display:block;}
   .dropdown-menu a{display:block;padding:8px 10px;border-radius:6px;font-size:13px;}
   .dropdown-menu a:hover{background:var(--panel-2);}
-  .page-title{max-width:920px;margin:0 auto;padding:28px 32px 0;}
+  .page-title{position:relative;z-index:1;max-width:920px;margin:0 auto;padding:28px 32px 0;display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
   .page-title .tag{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:2px;color:var(--teal);}
   .page-title h1{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:22px;margin-top:6px;}
-  .wrap{max-width:920px;margin:0 auto;padding:0 32px;}
+
+  .patch{
+    flex-shrink:0;
+    width:84px;height:84px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #1e2a45, #0c1220 70%);
+    border:2px dashed var(--amber);
+    display:flex;align-items:center;justify-content:center;
+    font-size:30px;
+    box-shadow:0 0 0 4px rgba(232,163,61,.08), 0 8px 20px rgba(0,0,0,.4);
+    transform:rotate(-6deg);
+  }
+  .patch-2{
+    flex-shrink:0;width:64px;height:64px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #241a3a, #0c1220 70%);
+    border:2px dashed var(--teal);
+    display:flex;align-items:center;justify-content:center;font-size:24px;
+    box-shadow:0 0 0 3px rgba(45,212,191,.08), 0 6px 16px rgba(0,0,0,.4);
+    transform:rotate(8deg);
+  }
+
+  .wrap{position:relative;z-index:1;max-width:920px;margin:0 auto;padding:0 32px;}
   .orbit-rule{
     display:flex;
     align-items:center;
@@ -71,6 +118,7 @@
     color:var(--muted);
     text-transform:uppercase;
   }
+  .orbit-rule .divider-sticker{font-size:16px;margin-left:2px;}
   .orbit-rule::after{
     content:'';
     flex:1;
@@ -132,6 +180,8 @@
     border:1px solid var(--line);
     border-radius:10px;
     padding:18px 20px;
+    position:relative;
+    overflow:visible;
   }
   .card .type{
     font-family:'JetBrains Mono',monospace;
@@ -153,6 +203,8 @@
     text-align:center;
     color:var(--muted);
     font-size:13px;
+    position:relative;
+    overflow:visible;
   }
   .why-box{
     margin-top:14px;
@@ -162,16 +214,74 @@
     color:var(--muted);
   }
   .why-box b{color:var(--text);}
+
+  /* stickers */
+  .sticker-row{
+    display:flex;gap:14px;flex-wrap:wrap;margin:22px 0 0;
+  }
+  .sticker{
+    display:inline-flex;align-items:center;gap:6px;
+    background:var(--panel);border:1px solid var(--line);
+    border-radius:999px;padding:7px 14px 7px 10px;
+    font-family:'JetBrains Mono',monospace;font-size:11px;
+    color:var(--muted);letter-spacing:.5px;text-transform:uppercase;
+    box-shadow:0 6px 14px rgba(0,0,0,.25);
+  }
+  .sticker span.emoji{font-size:16px;}
+  .sticker:nth-child(odd){transform:rotate(-3deg);}
+  .sticker:nth-child(even){transform:rotate(3deg);}
+
+  .corner-sticker{
+    position:absolute;font-size:26px;top:-14px;right:-10px;
+    filter:drop-shadow(0 4px 6px rgba(0,0,0,.4));
+  }
+  .card.num .corner-sticker{transform:rotate(12deg);}
+  .card.cat .corner-sticker{transform:rotate(-10deg);}
+  .corner-sticker-2{
+    position:absolute;font-size:22px;bottom:-12px;left:-10px;
+    filter:drop-shadow(0 4px 6px rgba(0,0,0,.4));
+    transform:rotate(-14deg);
+  }
+
+  .chart-sticker{
+    position:absolute;font-size:24px;
+    filter:drop-shadow(0 4px 6px rgba(0,0,0,.4));
+  }
+
+  .emoji-strip{
+    text-align:center;font-size:22px;letter-spacing:14px;margin:36px 0;
+    filter:drop-shadow(0 4px 8px rgba(0,0,0,.4));
+  }
+
   footer{
+    position:relative;z-index:1;
     max-width:920px;margin:60px auto 0;padding:20px 32px 0;
     border-top:1px solid var(--line);
     font-family:'JetBrains Mono',monospace;
     font-size:11px;
     color:var(--muted);
+    display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;
   }
+  footer .stickers{font-size:18px;letter-spacing:6px;}
 </style>
 </head>
 <body>
+
+<!-- floating decorative space stickers scattered across the page -->
+<div class="float-sticker" style="top:110px;left:3%;">🛸</div>
+<div class="float-sticker" style="top:80px;left:94%;font-size:20px;">✨</div>
+<div class="float-sticker" style="top:260px;left:96%;">👽</div>
+<div class="float-sticker" style="top:420px;left:2%;font-size:22px;">🌠</div>
+<div class="float-sticker" style="top:340px;left:97%;font-size:20px;">🌑</div>
+<div class="float-sticker" style="top:560px;left:1%;font-size:24px;">🌕</div>
+<div class="float-sticker" style="top:640px;left:95%;">📡</div>
+<div class="float-sticker" style="top:760px;left:3%;font-size:20px;">🌙</div>
+<div class="float-sticker" style="top:900px;left:96%;font-size:22px;">👨‍🚀</div>
+<div class="float-sticker" style="top:1020px;left:2%;">🔭</div>
+<div class="float-sticker" style="top:1150px;left:95%;font-size:20px;">✨</div>
+<div class="float-sticker" style="top:1300px;left:2%;font-size:22px;">🌌</div>
+<div class="float-sticker" style="top:1450px;left:96%;">☄️</div>
+<div class="float-sticker" style="top:1600px;left:3%;font-size:20px;">🪐</div>
 
 <nav>
   <div class="brand mono">MY CSE PORTFOLIO</div>
@@ -189,25 +299,42 @@
 </nav>
 
 <div class="page-title">
-  <div class="tag mono">STATISTICS 1 // ACTIVITY LOG</div>
-  <h1>Global satellite orbit dataset</h1>
+  <div class="patch">🛰️</div>
+  <div>
+    <div class="tag mono">STATISTICS 1 // MISSION LOG</div>
+    <h1>Global satellite orbit dataset</h1>
+  </div>
+  <div class="patch-2">🚀</div>
 </div>
 
 <div class="wrap">
 
-  <div class="orbit-rule"><div class="num">01</div><div class="label">Dataset overview</div></div>
+  <div class="sticker-row">
+    <div class="sticker"><span class="emoji">🚀</span>7,000+ tracked</div>
+    <div class="sticker"><span class="emoji">🌍</span>low earth orbit</div>
+    <div class="sticker"><span class="emoji">📡</span>communications</div>
+    <div class="sticker"><span class="emoji">🪐</span>orbital mechanics</div>
+    <div class="sticker"><span class="emoji">⭐</span>real dataset</div>
+    <div class="sticker"><span class="emoji">🌙</span>space science</div>
+    <div class="sticker"><span class="emoji">☄️</span>UCS database</div>
+    <div class="sticker"><span class="emoji">👨‍🚀</span>mission log</div>
+  </div>
+
+  <div class="emoji-strip">🛰️ 🌌 🚀 ⭐ 🪐 ☄️ 🌍</div>
+
+  <div class="orbit-rule"><div class="num">01</div><div class="label">Dataset overview</div><span class="divider-sticker">🌌</span><span class="divider-sticker">🛸</span></div>
   <section>
     <p class="lead">This dataset tracks active satellites currently in Earth orbit, compiled by the Union of Concerned Scientists. Each row is one satellite — who operates it, what it's used for, and the orbital mechanics that keep it up there.</p>
     <p style="margin-top:12px;">I picked the UCS Satellite Database because it gives a real, current snapshot of every operational satellite in orbit &mdash; not a historical or simulated dataset. It sits at the intersection of my interest in aerospace and the kind of structured, numeric data that's genuinely useful for statistical analysis. With over 7,000 satellites tracked, it captures the full diversity of the industry: national space agencies, private companies, military programs, and university projects all in one table, each with hard orbital mechanics numbers (mass, altitude, period) alongside the human/organizational side (who owns it, what it's for). That mix of categorical and numerical detail is exactly why it works well for this activity.</p>
     <div class="meta-row">
-      <div class="meta-item"><div class="k">ROWS</div><div class="v">999</div></div>
-      <div class="meta-item"><div class="k">COLUMNS</div><div class="v">11</div></div>
-      <div class="meta-item"><div class="k">SOURCE</div><div class="v">UCS</div></div>
+      <div class="meta-item"><div class="k">ROWS</div><div class="v">999 🛰️</div></div>
+      <div class="meta-item"><div class="k">COLUMNS</div><div class="v">11 📊</div></div>
+      <div class="meta-item"><div class="k">SOURCE</div><div class="v">UCS 🌍</div></div>
     </div>
     <p style="margin-top:4px;">Source: <a class="source" href="https://www.ucs.org/resources/satellite-database" target="_blank">UCS Satellite Database →</a></p>
   </section>
 
-  <div class="orbit-rule"><div class="num">02</div><div class="label">Raw data</div></div>
+  <div class="orbit-rule"><div class="num">02</div><div class="label">Raw data</div><span class="divider-sticker">📊</span><span class="divider-sticker">💾</span></div>
   <section>
     <p>Live view of the source spreadsheet.</p>
     <div class="table-frame">
@@ -216,10 +343,12 @@
     </div>
   </section>
 
-  <div class="orbit-rule"><div class="num">03</div><div class="label">Variable identification</div></div>
+  <div class="orbit-rule"><div class="num">03</div><div class="label">Variable identification</div><span class="divider-sticker">🔭</span><span class="divider-sticker">🧮</span></div>
   <section>
     <div class="grid-2">
       <div class="card cat">
+        <div class="corner-sticker">🌍</div>
+        <div class="corner-sticker-2">🛰️</div>
         <div class="type">Categorical</div>
         <ul>
           <li><b>Country of Operator</b> — nominal, no inherent order</li>
@@ -228,6 +357,8 @@
         </ul>
       </div>
       <div class="card num">
+        <div class="corner-sticker">🪐</div>
+        <div class="corner-sticker-2">⭐</div>
         <div class="type">Numerical</div>
         <ul>
           <li><b>Perigee (km)</b> — continuous, ratio scale</li>
@@ -244,19 +375,30 @@
     </div>
   </section>
 
-  <div class="orbit-rule"><div class="num">04</div><div class="label">Visualizations</div></div>
+  <div class="orbit-rule"><div class="num">04</div><div class="label">Visualizations</div><span class="divider-sticker">☄️</span><span class="divider-sticker">📈</span></div>
   <section>
     <p>Two views of the dataset: satellite purpose distribution, and how perigee relates to apogee.</p>
-    <div class="chart-slot"><iframe width="600" height="371" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS1kWd1VEqs7HT__UZpzYIyujHLR5yNc5HKdKyE0Nmzr9qJ4MU2M18I6DjIFN5p-WDpiT1S_dGDwSN4/pubchart?oid=888950159&format=interactive" style="width:100%; border:none;"></iframe></div>
+    <div class="chart-slot">
+      <span class="chart-sticker" style="top:-14px;left:-10px;transform:rotate(-10deg);">📡</span>
+      <span class="chart-sticker" style="bottom:-14px;right:-10px;transform:rotate(10deg);">🛰️</span>
+      <iframe width="600" height="371" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS1kWd1VEqs7HT__UZpzYIyujHLR5yNc5HKdKyE0Nmzr9qJ4MU2M18I6DjIFN5p-WDpiT1S_dGDwSN4/pubchart?oid=888950159&format=interactive" style="width:100%; border:none;"></iframe>
+    </div>
     <div class="why-box"><b>Why this chart:</b> A bar chart is well-suited to comparing counts across categorical groups, especially with a small number of major categories and a long tail of minor ones.<br><b>Trend observed:</b> Earth Observation and Communications dominate the dataset, together accounting for the majority of satellites, followed by Navigation/Global Positioning and Technology Development — with everything else contributing only a small fraction each.</div>
-    <div class="chart-slot" style="margin-top:16px;"><iframe width="600" height="371" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS1kWd1VEqs7HT__UZpzYIyujHLR5yNc5HKdKyE0Nmzr9qJ4MU2M18I6DjIFN5p-WDpiT1S_dGDwSN4/pubchart?oid=1664304095&format=interactive" style="width:100%; border:none;"></iframe></div>
+    <div class="chart-slot" style="margin-top:16px;">
+      <span class="chart-sticker" style="top:-14px;right:-10px;transform:rotate(12deg);">🪐</span>
+      <span class="chart-sticker" style="bottom:-14px;left:-10px;transform:rotate(-12deg);">🌌</span>
+      <iframe width="600" height="371" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS1kWd1VEqs7HT__UZpzYIyujHLR5yNc5HKdKyE0Nmzr9qJ4MU2M18I6DjIFN5p-WDpiT1S_dGDwSN4/pubchart?oid=1664304095&format=interactive" style="width:100%; border:none;"></iframe>
+    </div>
     <div class="why-box"><b>Why this chart:</b> A scatter plot shows the relationship between two continuous variables — here, whether a satellite's perigee predicts its apogee.<br><b>Trend observed:</b> Satellites cluster into three distinct bands (LEO ~300–900km, MEO ~19,000–23,500km, GEO ~35,700km) rather than a smooth spread, reflecting the different orbital regimes used for different purposes.</div>
   </section>
+
+  <div class="emoji-strip">🌙 ⭐ 🛰️ 🚀 🪐 ☄️ 🌌</div>
 
 </div>
 
 <footer>
-  Statistics 1 — first year CSE coursework
+  <span>Statistics 1 — first year CSE coursework</span>
+  <span class="stickers">🛰️ 🚀 🌍 ⭐ 🪐 ☄️ 👨‍🚀 🌌</span>
 </footer>
 
 </body>
