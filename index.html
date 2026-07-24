@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Home — My CSE Portfolio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B1220; --panel:#141B2E; --panel-2:#1B2338;
+    --text:#EDEFF5; --muted:#7C8AA3;
+    --amber:#E8A33D; --teal:#2DD4BF; --line:#243049;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.7;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  nav{
+    display:flex;justify-content:space-between;align-items:center;
+    max-width:920px;margin:0 auto;padding:24px 32px;
+    border-bottom:1px solid var(--line);
+  }
+  nav .brand{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;}
+  nav .links{display:flex;gap:28px;font-size:14px;position:relative;}
+  nav a{color:var(--muted);text-decoration:none;}
+  nav a.active,nav a:hover{color:var(--teal);}
+  .dropdown{position:relative;}
+  .dropdown-menu{
+    display:none;position:absolute;top:28px;left:0;
+    background:var(--panel);border:1px solid var(--line);border-radius:8px;
+    min-width:150px;padding:6px;z-index:10;
+  }
+  .dropdown:hover .dropdown-menu{display:block;}
+  .dropdown-menu a{display:block;padding:8px 10px;border-radius:6px;font-size:13px;}
+  .dropdown-menu a:hover{background:var(--panel-2);}
+  .wrap{max-width:920px;margin:0 auto;padding:0 32px;}
+  .hero{padding:80px 0 60px;}
+  .hero .tag{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:2px;color:var(--teal);}
+  .hero h1{font-family:'JetBrains Mono',monospace;font-size:34px;font-weight:700;margin:12px 0 16px;}
+  .hero p{color:var(--muted);font-size:16px;max-width:560px;}
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:48px;}
+  @media (max-width:640px){.cards{grid-template-columns:1fr;}}
+  .card{
+    background:var(--panel);border:1px solid var(--line);border-radius:10px;
+    padding:20px;text-decoration:none;color:var(--text);display:block;
+  }
+  .card:hover{border-color:var(--teal);}
+  .card .k{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--amber);letter-spacing:1px;}
+  .card h3{margin:8px 0 6px;font-size:17px;}
+  .card p{color:var(--muted);font-size:13px;margin:0;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand mono">MY CSE PORTFOLIO</div>
+  <div class="links">
+    <a href="index.html" class="active">Home</a>
+    <div class="dropdown">
+      <a href="statistics1.html">Statistics 1 ▾</a>
+      <div class="dropdown-menu">
+        <a href="activity1.html">Activity 1</a>
+        <a href="activity2.html">Activity 2</a>
+      </div>
+    </div>
+    <a href="about.html">About</a>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="tag mono">FIRST YEAR &middot; CSE</div>
+    <h1>Hi, I'm Sai.</h1>
+    <p>This is my student portfolio for coursework and projects — starting with Statistics 1, where I explore real datasets to practice data analysis, visualization, and statistical reasoning.</p>
+  </div>
+
+  <div class="cards">
+    <a class="card" href="statistics1.html">
+      <div class="k mono">COURSE</div>
+      <h3>Statistics 1</h3>
+      <p>Correlation, variables, distributions, and applied analysis on real-world datasets.</p>
+    </a>
+    <a class="card" href="about.html">
+      <div class="k mono">PROFILE</div>
+      <h3>About me</h3>
+      <p>A bit about my background, interests, and goals as a CSE student.</p>
+    </a>
+  </div>
+</div>
+
+</body>
+</html>
