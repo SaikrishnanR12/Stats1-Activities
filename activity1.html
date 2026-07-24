@@ -200,8 +200,8 @@
     <p class="lead">This dataset tracks active satellites currently in Earth orbit, compiled by the Union of Concerned Scientists. Each row is one satellite — who operates it, what it's used for, and the orbital mechanics that keep it up there.</p>
     <p style="margin-top:12px;">I picked the UCS Satellite Database because it gives a real, current snapshot of every operational satellite in orbit &mdash; not a historical or simulated dataset. It sits at the intersection of my interest in aerospace and the kind of structured, numeric data that's genuinely useful for statistical analysis. With over 7,000 satellites tracked, it captures the full diversity of the industry: national space agencies, private companies, military programs, and university projects all in one table, each with hard orbital mechanics numbers (mass, altitude, period) alongside the human/organizational side (who owns it, what it's for). That mix of categorical and numerical detail is exactly why it works well for this activity.</p>
     <div class="meta-row">
-      <div class="meta-item"><div class="k">ROWS</div><div class="v">1,000+</div></div>
-      <div class="meta-item"><div class="k">COLUMNS</div><div class="v">10</div></div>
+      <div class="meta-item"><div class="k">ROWS</div><div class="v">999</div></div>
+      <div class="meta-item"><div class="k">COLUMNS</div><div class="v">11</div></div>
       <div class="meta-item"><div class="k">SOURCE</div><div class="v">UCS</div></div>
     </div>
     <p style="margin-top:4px;">Source: <a class="source" href="https://www.ucs.org/resources/satellite-database" target="_blank">UCS Satellite Database →</a></p>
@@ -209,7 +209,7 @@
 
   <div class="orbit-rule"><div class="num">02</div><div class="label">Raw data</div></div>
   <section>
-    <p>Live view of the source spreadsheet — replace the src below with your published Google Sheet embed link (File → Share → Publish to web → Embed).</p>
+    <p>Live view of the source spreadsheet.</p>
     <div class="table-frame">
       <div class="bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div>&nbsp;satellite-data-raw.gsheet</div>
       <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS1kWd1VEqs7HT__UZpzYIyujHLR5yNc5HKdKyE0Nmzr9qJ4MU2M18I6DjIFN5p-WDpiT1S_dGDwSN4/pubhtml?gid=191695964&single=true&widget=true&headers=false"></iframe>
@@ -246,10 +246,10 @@
 
   <div class="orbit-rule"><div class="num">04</div><div class="label">Visualizations</div></div>
   <section>
-    <p>Insert charts from your analysis spreadsheet here (Insert → Chart in Sheets → Publish chart → paste embed code, or screenshot + Insert → Image).</p>
-    <div class="chart-slot"><iframe width="600" height="371" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS1kWd1VEqs7HT__UZpzYIyujHLR5yNc5HKdKyE0Nmzr9qJ4MU2M18I6DjIFN5p-WDpiT1S_dGDwSN4/pubchart?oid=960533457&format=interactive" style="width:100%; border:none;"></iframe></div>
+    <p>Two views of the dataset: satellite purpose distribution, and how perigee relates to apogee.</p>
+    <div class="chart-slot"><iframe width="600" height="371" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS1kWd1VEqs7HT__UZpzYIyujHLR5yNc5HKdKyE0Nmzr9qJ4MU2M18I6DjIFN5p-WDpiT1S_dGDwSN4/pubchart?oid=888950159&format=interactive" style="width:100%; border:none;"></iframe></div>
     <div class="why-box"><b>Why this chart:</b> A bar chart is well-suited to comparing counts across categorical groups, especially with a small number of major categories and a long tail of minor ones.<br><b>Trend observed:</b> Earth Observation and Communications dominate the dataset, together accounting for the majority of satellites, followed by Navigation/Global Positioning and Technology Development — with everything else contributing only a small fraction each.</div>
-    <div class="chart-slot" style="margin-top:16px;"><iframe width="600" height="371" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS1kWd1VEqs7HT__UZpzYIyujHLR5yNc5HKdKyE0Nmzr9qJ4MU2M18I6DjIFN5p-WDpiT1S_dGDwSN4/pubchart?oid=2073108364&format=interactive" style="width:100%; border:none;"></iframe></div>
+    <div class="chart-slot" style="margin-top:16px;"><iframe width="600" height="371" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS1kWd1VEqs7HT__UZpzYIyujHLR5yNc5HKdKyE0Nmzr9qJ4MU2M18I6DjIFN5p-WDpiT1S_dGDwSN4/pubchart?oid=1664304095&format=interactive" style="width:100%; border:none;"></iframe></div>
     <div class="why-box"><b>Why this chart:</b> A scatter plot shows the relationship between two continuous variables — here, whether a satellite's perigee predicts its apogee.<br><b>Trend observed:</b> Satellites cluster into three distinct bands (LEO ~300–900km, MEO ~19,000–23,500km, GEO ~35,700km) rather than a smooth spread, reflecting the different orbital regimes used for different purposes.</div>
   </section>
 
