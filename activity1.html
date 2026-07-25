@@ -52,11 +52,15 @@
     filter:drop-shadow(0 4px 6px rgba(0,0,0,.4));
   }
 
+  .top-fixed{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    background:rgba(8,13,26,.82);
+    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  }
   nav{
     position:relative;z-index:2;
     display:flex;justify-content:space-between;align-items:center;
-    max-width:920px;margin:0 auto;padding:24px 32px;
-    border-bottom:1px solid var(--line);
+    max-width:920px;margin:0 auto;padding:22px 32px 18px;
   }
   nav .brand{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;}
   nav .links{display:flex;gap:28px;font-size:14px;position:relative;}
@@ -71,9 +75,49 @@
   .dropdown:hover .dropdown-menu{display:block;}
   .dropdown-menu a{display:block;padding:8px 10px;border-radius:6px;font-size:13px;}
   .dropdown-menu a:hover{background:var(--panel-2);}
+
+  .progress-track{
+    position:relative;width:100%;height:5px;
+    background:var(--line);overflow:visible;
+  }
+  .progress-fill{
+    position:absolute;top:0;left:0;height:100%;width:0%;
+    background:linear-gradient(90deg,var(--amber),var(--teal));
+    transition:width .12s linear;
+    border-radius:0 3px 3px 0;
+  }
+  .rocket-outer{
+    position:absolute;top:50%;left:0%;
+    transform:translate(-50%,-50%);
+    transition:left .12s linear, transform .45s cubic-bezier(.4,0,.2,1);
+    will-change:left,transform;
+    z-index:5;
+  }
+  .rocket-outer.flip{transform:translate(-50%,-50%) scaleX(-1);}
+  .rocket-bob{position:relative;}
+  .rocket-bob.idle{animation:rocketBob 1.8s ease-in-out infinite;}
+  @keyframes rocketBob{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-5px);}
+  }
+  .rocket-svg{display:block;filter:drop-shadow(0 2px 4px rgba(0,0,0,.5));}
+  .spark{
+    position:absolute;width:3px;height:3px;border-radius:50%;
+    background:#fff;opacity:0;left:10px;top:12px;pointer-events:none;
+  }
+  .spark.s1{animation:sparkle 1.2s ease-out infinite;}
+  .spark.s2{animation:sparkle 1.2s ease-out infinite .4s;}
+  .spark.s3{animation:sparkle 1.2s ease-out infinite .8s;}
+  @keyframes sparkle{
+    0%{opacity:0;transform:translate(0,0) scale(1);}
+    12%{opacity:1;}
+    100%{opacity:0;transform:translate(-16px,7px) scale(.3);}
+  }
+
   .page-title{position:relative;z-index:1;max-width:920px;margin:0 auto;padding:28px 32px 0;display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
   .page-title .tag{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:2px;color:var(--teal);}
   .page-title h1{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:22px;margin-top:6px;}
+
 
   .patch{
     flex-shrink:0;
@@ -125,7 +169,7 @@
     height:1px;
     background:repeating-linear-gradient(90deg, var(--line) 0 6px, transparent 6px 10px);
   }
-  section p{color:var(--muted);font-size:15px;max-width:640px;}
+  section p{color:var(--muted);font-size:15px;max-width:none;}
   section p.lead{color:var(--text);font-size:16px;}
   .meta-row{
     display:flex;gap:24px;margin:20px 0;flex-wrap:wrap;
@@ -215,6 +259,51 @@
   }
   .why-box b{color:var(--text);}
 
+  .reason-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    align-items:start;
+    gap:14px;
+    margin-top:18px;
+  }
+  .reason-grid.stack{grid-template-columns:1fr;}
+  .reason-card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:16px 18px 16px 16px;
+    display:flex;
+    gap:12px;
+    position:relative;
+    overflow:hidden;
+    transition:transform .15s ease, border-color .15s ease;
+  }
+  .reason-card:hover{transform:translateY(-2px);border-color:var(--teal);}
+  .reason-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;}
+  .reason-card.acc-amber::before{background:var(--amber);}
+  .reason-card.acc-teal::before{background:var(--teal);}
+  .reason-card.acc-plain::before{background:var(--line);}
+  .reason-icon{
+    font-size:22px;flex-shrink:0;line-height:1;margin-top:2px;
+    filter:drop-shadow(0 3px 5px rgba(0,0,0,.4));
+  }
+  .reason-label{
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1.5px;
+    text-transform:uppercase;margin-bottom:6px;font-weight:700;
+  }
+  .reason-card.acc-amber .reason-label{color:var(--amber);}
+  .reason-card.acc-teal .reason-label{color:var(--teal);}
+  .reason-card.acc-plain .reason-label{color:var(--muted);}
+  .reason-card p{color:var(--muted);font-size:13.5px;margin:0;max-width:none;line-height:1.65;}
+  .hl{
+    background:rgba(45,212,191,.12);color:var(--teal);padding:1px 7px;border-radius:6px;
+    font-weight:600;border:1px solid rgba(45,212,191,.25);white-space:nowrap;
+  }
+  .hl-amber{
+    background:rgba(232,163,61,.12);color:var(--amber);padding:1px 7px;border-radius:6px;
+    font-weight:600;border:1px solid rgba(232,163,61,.25);white-space:nowrap;
+  }
+
   /* stickers */
   .sticker-row{
     display:flex;gap:14px;flex-wrap:wrap;margin:22px 0 0;
@@ -283,6 +372,7 @@
 <div class="float-sticker" style="top:1450px;left:96%;">☄️</div>
 <div class="float-sticker" style="top:1600px;left:3%;font-size:20px;">🪐</div>
 
+<div class="top-fixed" id="topFixed">
 <nav>
   <div class="brand mono">MY CSE PORTFOLIO</div>
   <div class="links">
@@ -297,6 +387,29 @@
     <a href="about.html">About</a>
   </div>
 </nav>
+<div class="progress-track" id="progressTrack">
+  <div class="progress-fill" id="progressFill"></div>
+  <div class="rocket-outer" id="rocketOuter">
+    <div class="rocket-bob" id="rocketBob">
+      <svg class="rocket-svg" width="42" height="22" viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="flameGrad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#2DD4BF" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#2DD4BF" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <ellipse cx="9" cy="15" rx="9" ry="4.5" fill="url(#flameGrad)"/>
+        <ellipse cx="13" cy="15" rx="4.5" ry="2.2" fill="#EDEFF5" opacity="0.55"/>
+        <path d="M18 15 L45 5.5 Q54 15 45 24.5 Z" fill="#EDEFF5" stroke="#2DD4BF" stroke-width="1.2"/>
+        <circle cx="37" cy="15" r="3" fill="#0B1120" stroke="#2DD4BF" stroke-width="1.2"/>
+      </svg>
+      <span class="spark s1"></span>
+      <span class="spark s2"></span>
+      <span class="spark s3"></span>
+    </div>
+  </div>
+</div>
+</div>
 
 <div class="page-title">
   <div class="patch">🛰️</div>
@@ -368,14 +481,119 @@
         </ul>
       </div>
     </div>
-    <div class="why-box">
-      <b>Categorical:</b> Country of Operator, Purpose, and Users are categorical because their values are labels, not quantities &mdash; "Purpose" being "Communications" or "Earth Observation" can't be measured or ranked numerically. All three are <b>nominal scale</b>, since there's no natural order between categories (e.g. "Military" isn't inherently higher or lower than "Commercial").
-      <br><br>
-      <b>Numerical:</b> Perigee, Apogee, Inclination, and Launch Mass are numerical because they represent measurable quantities from real instruments. All four are <b>ratio scale</b> &mdash; they have a true zero (0 km altitude or 0 kg mass genuinely means none), and ratios between values are meaningful (twice the mass really is twice as heavy). All four are also <b>continuous</b>, since they can take any value within a range (e.g. 51.6&deg; or 51.63&deg;), not just whole-number counts.
+    <div class="reason-grid">
+      <div class="reason-card acc-amber">
+        <div class="reason-icon">🌍</div>
+        <div>
+          <div class="reason-label">Categorical</div>
+          <p>Country of Operator, Purpose, and Users are categorical because their values are labels, not quantities — "Purpose" being "Communications" or "Earth Observation" can't be measured or ranked numerically. All three sit on the <span class="hl-amber">nominal scale</span>, since there's no natural order between categories (e.g. "Military" isn't inherently higher or lower than "Commercial").</p>
+        </div>
+      </div>
+      <div class="reason-card acc-teal">
+        <div class="reason-icon">🪐</div>
+        <div>
+          <div class="reason-label">Numerical</div>
+          <p>Perigee, Apogee, Inclination, and Launch Mass are numerical because they represent measurable quantities from real instruments. All four are <span class="hl">ratio scale</span> — they have a true zero (0 km altitude or 0 kg mass genuinely means none), and ratios between values are meaningful (twice the mass really is twice as heavy). All four are also <span class="hl">continuous</span>, since they can take any value within a range (e.g. 51.6° or 51.63°), not just whole-number counts.</p>
+        </div>
+      </div>
     </div>
   </section>
 
-  <div class="orbit-rule"><div class="num">04</div><div class="label">Visualizations</div><span class="divider-sticker">☄️</span><span class="divider-sticker">📈</span></div>
+  <div class="orbit-rule"><div class="num">04</div><div class="label">Scales of measurement</div><span class="divider-sticker">📏</span><span class="divider-sticker">🧭</span></div>
+  <section>
+    <p class="lead">There are four scales of measurement — nominal, ordinal, interval, and ratio. Every variable in this dataset falls into either the nominal or the ratio scale.</p>
+    <div class="grid-2">
+      <div class="card cat">
+        <div class="corner-sticker">🧭</div>
+        <div class="corner-sticker-2">🌍</div>
+        <div class="type">Nominal scale</div>
+        <ul>
+          <li><b>Country of Operator</b> — a label with no order or rank</li>
+          <li><b>Purpose</b> — a category name, not a quantity</li>
+          <li><b>Users</b> — an ownership-sector label</li>
+        </ul>
+      </div>
+      <div class="card num">
+        <div class="corner-sticker">📏</div>
+        <div class="corner-sticker-2">🛰️</div>
+        <div class="type">Ratio scale</div>
+        <ul>
+          <li><b>Perigee (km)</b> — true zero, ratios are meaningful</li>
+          <li><b>Apogee (km)</b> — true zero, ratios are meaningful</li>
+          <li><b>Inclination (°)</b> — 0° is a genuine absence of tilt</li>
+          <li><b>Launch mass (kg)</b> — 0 kg genuinely means no mass</li>
+        </ul>
+      </div>
+    </div>
+    <div class="reason-grid">
+      <div class="reason-card acc-amber">
+        <div class="reason-icon">🧭</div>
+        <div>
+          <div class="reason-label">Nominal</div>
+          <p>Country of Operator, Purpose, and Users only name or label a group — there's no meaningful order (e.g. "Commercial" isn't higher or lower than "Military") and no arithmetic can be done on them. That's the defining feature of a <span class="hl-amber">nominal scale</span>.</p>
+        </div>
+      </div>
+      <div class="reason-card acc-teal">
+        <div class="reason-icon">📏</div>
+        <div>
+          <div class="reason-label">Ratio</div>
+          <p>Perigee, Apogee, Inclination, and Launch Mass are all measured on a <span class="hl">ratio scale</span> because each has a true, non-arbitrary zero point (0 km, 0°, 0 kg all mean "none of this quantity"), and ratios between values are meaningful — a satellite with an 800 kg launch mass really is twice as heavy as one at 400 kg. This is what separates ratio from interval data, where zero is arbitrary (like 0°C) and ratios don't hold.</p>
+        </div>
+      </div>
+      <div class="reason-card acc-plain">
+        <div class="reason-icon">🚫</div>
+        <div>
+          <div class="reason-label">Ordinal &amp; interval</div>
+          <p>None of the variables I picked are ordinal (ranked categories like "Low / Medium / High") or interval (equal spacing but no true zero, like temperature in Celsius) — the dataset simply doesn't have that kind of column, since it mixes plain organizational labels with hard physical measurements.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="orbit-rule"><div class="num">05</div><div class="label">Discrete &amp; continuous variables</div><span class="divider-sticker">🔢</span><span class="divider-sticker">📈</span></div>
+  <section>
+    <p class="lead">Only numerical variables can be split into discrete or continuous — categorical variables don't apply here since they're not counted or measured on a number line.</p>
+    <div class="grid-2">
+      <div class="card num">
+        <div class="corner-sticker">📈</div>
+        <div class="corner-sticker-2">🪐</div>
+        <div class="type">Continuous</div>
+        <ul>
+          <li><b>Perigee (km)</b> — can take any decimal value</li>
+          <li><b>Apogee (km)</b> — can take any decimal value</li>
+          <li><b>Inclination (°)</b> — measured to fractions of a degree</li>
+          <li><b>Launch mass (kg)</b> — measured to fractions of a kilogram</li>
+        </ul>
+      </div>
+      <div class="card cat">
+        <div class="corner-sticker">🔢</div>
+        <div class="corner-sticker-2">🛰️</div>
+        <div class="type">Discrete</div>
+        <ul>
+          <li>Not present in this dataset</li>
+          <li>e.g. a hypothetical <b>"Number of payloads"</b> column would be</li>
+        </ul>
+      </div>
+    </div>
+    <div class="reason-grid stack">
+      <div class="reason-card acc-teal">
+        <div class="reason-icon">📈</div>
+        <div>
+          <div class="reason-label">Continuous</div>
+          <p>Perigee, Apogee, Inclination, and Launch Mass are all <span class="hl">continuous</span> because they come from physical measurement, not counting — they can take literally any value within a range (a satellite can sit at an inclination of 51.6°, 51.63°, or 51.637°), limited only by how precisely the instrument records it.</p>
+        </div>
+      </div>
+      <div class="reason-card acc-amber">
+        <div class="reason-icon">🔢</div>
+        <div>
+          <div class="reason-label">Discrete</div>
+          <p>None of the four numerical variables I picked are <span class="hl-amber">discrete</span>, since discrete data only comes from counting whole, separate units, which can only take whole-number values with no in-between. Looking at the full UCS database (68 columns, including Eccentricity, Dry Mass, Power, and Expected Lifetime), every single numerical field is a measured quantity rather than a count — there's no "number of X" style column anywhere in the source data, so a discrete variable simply isn't available to select from this dataset. I've kept a hypothetical example alongside for contrast, to show what discrete data would look like if it were present.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="orbit-rule"><div class="num">06</div><div class="label">Visualizations</div><span class="divider-sticker">☄️</span><span class="divider-sticker">📈</span></div>
   <section>
     <p>Two views of the dataset: satellite purpose distribution, and how perigee relates to apogee.</p>
     <div class="chart-slot">
@@ -383,13 +601,43 @@
       <span class="chart-sticker" style="bottom:-14px;right:-10px;transform:rotate(10deg);">🛰️</span>
       <iframe width="600" height="371" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS1kWd1VEqs7HT__UZpzYIyujHLR5yNc5HKdKyE0Nmzr9qJ4MU2M18I6DjIFN5p-WDpiT1S_dGDwSN4/pubchart?oid=888950159&format=interactive" style="width:100%; border:none;"></iframe>
     </div>
-    <div class="why-box"><b>Why this chart:</b> A bar chart is well-suited to comparing counts across categorical groups, especially with a small number of major categories and a long tail of minor ones.<br><b>Trend observed:</b> Earth Observation and Communications dominate the dataset, together accounting for the majority of satellites, followed by Navigation/Global Positioning and Technology Development — with everything else contributing only a small fraction each.</div>
+    <div class="reason-grid">
+      <div class="reason-card acc-amber">
+        <div class="reason-icon">🤔</div>
+        <div>
+          <div class="reason-label">Why this chart</div>
+          <p>A bar chart is well-suited to comparing counts across categorical groups, especially with a small number of major categories and a long tail of minor ones.</p>
+        </div>
+      </div>
+      <div class="reason-card acc-teal">
+        <div class="reason-icon">📊</div>
+        <div>
+          <div class="reason-label">Trend observed</div>
+          <p>Earth Observation and Communications dominate the dataset, together accounting for the majority of satellites, followed by Navigation/Global Positioning and Technology Development — with everything else contributing only a small fraction each.</p>
+        </div>
+      </div>
+    </div>
     <div class="chart-slot" style="margin-top:16px;">
       <span class="chart-sticker" style="top:-14px;right:-10px;transform:rotate(12deg);">🪐</span>
       <span class="chart-sticker" style="bottom:-14px;left:-10px;transform:rotate(-12deg);">🌌</span>
       <iframe width="600" height="371" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vS1kWd1VEqs7HT__UZpzYIyujHLR5yNc5HKdKyE0Nmzr9qJ4MU2M18I6DjIFN5p-WDpiT1S_dGDwSN4/pubchart?oid=1664304095&format=interactive" style="width:100%; border:none;"></iframe>
     </div>
-    <div class="why-box"><b>Why this chart:</b> A scatter plot shows the relationship between two continuous variables — here, whether a satellite's perigee predicts its apogee.<br><b>Trend observed:</b> Satellites cluster into three distinct bands (LEO ~300–900km, MEO ~19,000–23,500km, GEO ~35,700km) rather than a smooth spread, reflecting the different orbital regimes used for different purposes.</div>
+    <div class="reason-grid">
+      <div class="reason-card acc-amber">
+        <div class="reason-icon">🤔</div>
+        <div>
+          <div class="reason-label">Why this chart</div>
+          <p>A scatter plot shows the relationship between two continuous variables — here, whether a satellite's perigee predicts its apogee.</p>
+        </div>
+      </div>
+      <div class="reason-card acc-teal">
+        <div class="reason-icon">📊</div>
+        <div>
+          <div class="reason-label">Trend observed</div>
+          <p>Satellites cluster into three distinct bands (LEO ~300–900km, MEO ~19,000–23,500km, GEO ~35,700km) rather than a smooth spread, reflecting the different orbital regimes used for different purposes.</p>
+        </div>
+      </div>
+    </div>
   </section>
 
   <div class="emoji-strip">🌙 ⭐ 🛰️ 🚀 🪐 ☄️ 🌌</div>
@@ -400,6 +648,68 @@
   <span>Statistics 1 — first year CSE coursework</span>
   <span class="stickers">🛰️ 🚀 🌍 ⭐ 🪐 ☄️ 👨‍🚀 🌌</span>
 </footer>
+
+<script>
+(function(){
+  var topFixed = document.getElementById('topFixed');
+  var progressTrack = document.getElementById('progressTrack');
+  var progressFill = document.getElementById('progressFill');
+  var rocketOuter = document.getElementById('rocketOuter');
+  var rocketBob = document.getElementById('rocketBob');
+
+  function syncOffset(){
+    document.body.style.paddingTop = topFixed.offsetHeight + 'px';
+  }
+  syncOffset();
+  window.addEventListener('resize', syncOffset);
+
+  var lastScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  var idleTimer = null;
+  var ticking = false;
+
+  function trackWidth(){ return progressTrack.clientWidth; }
+
+  function update(){
+    ticking = false;
+    var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    var percent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    percent = Math.max(0, Math.min(100, percent));
+
+    progressFill.style.width = percent + '%';
+
+    var w = trackWidth();
+    var clampPct = Math.max(2.2, Math.min(97.8, percent));
+    rocketOuter.style.left = clampPct + '%';
+
+    var delta = scrollTop - lastScrollTop;
+    if (Math.abs(delta) > 1){
+      if (delta < 0){
+        rocketOuter.classList.add('flip');
+      } else {
+        rocketOuter.classList.remove('flip');
+      }
+    }
+    lastScrollTop = scrollTop;
+
+    rocketBob.classList.remove('idle');
+    if (idleTimer) clearTimeout(idleTimer);
+    idleTimer = setTimeout(function(){
+      rocketBob.classList.add('idle');
+    }, 550);
+  }
+
+  window.addEventListener('scroll', function(){
+    if (!ticking){
+      window.requestAnimationFrame(update);
+      ticking = true;
+    }
+  }, {passive:true});
+
+  update();
+  idleTimer = setTimeout(function(){ rocketBob.classList.add('idle'); }, 550);
+})();
+</script>
 
 </body>
 </html>
