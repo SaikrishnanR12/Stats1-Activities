@@ -83,7 +83,12 @@
   }
   .progress-fill{
     position:absolute;top:0;left:0;height:100%;width:0%;
-    background:linear-gradient(90deg,var(--amber),var(--teal));
+    background:linear-gradient(90deg,
+      var(--amber) 0%, var(--teal) 16%, var(--amber) 32%, var(--teal) 48%,
+      var(--amber) 64%, var(--teal) 80%, var(--amber) 92%, var(--teal) 100%);
+    background-size:260vw 100%;
+    background-position:0 0;
+    box-shadow:0 0 10px -1px rgba(45,212,191,.5), 0 0 10px -1px rgba(232,163,61,.35);
     transition:width .12s linear;
     border-radius:0 3px 3px 0;
   }
@@ -101,18 +106,30 @@
     0%,100%{transform:translateY(0);}
     50%{transform:translateY(-5px);}
   }
-  .rocket-svg{display:block;filter:drop-shadow(0 2px 4px rgba(0,0,0,.5));}
-  .spark{
-    position:absolute;width:3px;height:3px;border-radius:50%;
-    background:#fff;opacity:0;left:10px;top:12px;pointer-events:none;
+  .rocket-svg{display:block;filter:drop-shadow(0 3px 6px rgba(0,0,0,.55));overflow:visible;}
+  .flame-outer,.flame-mid,.flame-core{
+    transform-box:fill-box;transform-origin:100% 50%;
+    transition:transform .1s ease-out, opacity .1s ease-out;
   }
-  .spark.s1{animation:sparkle 1.2s ease-out infinite;}
-  .spark.s2{animation:sparkle 1.2s ease-out infinite .4s;}
-  .spark.s3{animation:sparkle 1.2s ease-out infinite .8s;}
+  .spark{
+    position:absolute;border-radius:50%;
+    background:#fff;opacity:0;pointer-events:none;
+    box-shadow:0 0 4px 1px rgba(255,255,255,.9);
+  }
+  .spark.s1{width:3px;height:3px;left:16px;top:8px;animation:sparkle 1.1s ease-out infinite;}
+  .spark.s2{width:2.5px;height:2.5px;left:16px;top:14px;animation:sparkle 1.1s ease-out infinite .25s;}
+  .spark.s3{width:2px;height:2px;left:14px;top:20px;animation:sparkle 1.1s ease-out infinite .5s;}
+  .spark.s4{width:2.5px;height:2.5px;left:18px;top:11px;animation:sparkle2 1.4s ease-out infinite .15s;}
+  .spark.s5{width:1.8px;height:1.8px;left:15px;top:17px;animation:sparkle2 1.4s ease-out infinite .7s;}
   @keyframes sparkle{
     0%{opacity:0;transform:translate(0,0) scale(1);}
-    12%{opacity:1;}
-    100%{opacity:0;transform:translate(-16px,7px) scale(.3);}
+    14%{opacity:1;}
+    100%{opacity:0;transform:translate(-30px,6px) scale(.25);}
+  }
+  @keyframes sparkle2{
+    0%{opacity:0;transform:translate(0,0) scale(1);}
+    18%{opacity:.85;}
+    100%{opacity:0;transform:translate(-38px,-7px) scale(.2);}
   }
 
   .page-title{position:relative;z-index:1;max-width:920px;margin:0 auto;padding:28px 32px 0;display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
@@ -419,21 +436,56 @@
   <div class="progress-fill" id="progressFill"></div>
   <div class="rocket-outer" id="rocketOuter">
     <div class="rocket-bob" id="rocketBob">
-      <svg class="rocket-svg" width="42" height="22" viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg">
+      <svg class="rocket-svg" width="76" height="32" viewBox="0 0 110 46" xmlns="http://www.w3.org/2000/svg" style="overflow:visible;">
         <defs>
-          <radialGradient id="flameGrad" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#2DD4BF" stop-opacity="0.9"/>
+          <linearGradient id="flameOuter" x1="100%" y1="0%" x2="0%" y2="0%">
+            <stop offset="0%" stop-color="#E8A33D" stop-opacity="0.85"/>
+            <stop offset="100%" stop-color="#E8A33D" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="flameMid" x1="100%" y1="0%" x2="0%" y2="0%">
+            <stop offset="0%" stop-color="#2DD4BF" stop-opacity="0.95"/>
             <stop offset="100%" stop-color="#2DD4BF" stop-opacity="0"/>
+          </linearGradient>
+          <radialGradient id="flameCore" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.98"/>
+            <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
           </radialGradient>
+          <linearGradient id="hullGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#FFFFFF"/>
+            <stop offset="100%" stop-color="#C9D0E0"/>
+          </linearGradient>
         </defs>
-        <ellipse cx="9" cy="15" rx="9" ry="4.5" fill="url(#flameGrad)"/>
-        <ellipse cx="13" cy="15" rx="4.5" ry="2.2" fill="#EDEFF5" opacity="0.55"/>
-        <path d="M18 15 L45 5.5 Q54 15 45 24.5 Z" fill="#EDEFF5" stroke="#2DD4BF" stroke-width="1.2"/>
-        <circle cx="37" cy="15" r="3" fill="#0B1120" stroke="#2DD4BF" stroke-width="1.2"/>
+
+        <!-- outer flame plume -->
+        <path class="flame-outer" d="M40,15 Q14,19 1,23 Q14,27 40,31 Z" fill="url(#flameOuter)"/>
+        <!-- mid flame plume -->
+        <path class="flame-mid" d="M40,18 Q20,20.5 7,23 Q20,25.5 40,28 Z" fill="url(#flameMid)"/>
+        <!-- white-hot core -->
+        <ellipse class="flame-core" cx="35" cy="23" rx="8" ry="5.5" fill="url(#flameCore)"/>
+
+        <!-- tail fins -->
+        <path d="M38,15 L24,4 L35,17 Z" fill="#E8A33D" stroke="#0B1120" stroke-width="0.8"/>
+        <path d="M38,31 L24,42 L35,29 Z" fill="#E8A33D" stroke="#0B1120" stroke-width="0.8"/>
+
+        <!-- hull -->
+        <path d="M38,14 L66,9.5 Q88,13.5 99,23 Q88,32.5 66,36.5 L38,32 Q31,23 38,14 Z"
+              fill="url(#hullGrad)" stroke="#2DD4BF" stroke-width="1.4"/>
+        <!-- nose accent -->
+        <path d="M78,12.5 Q92,16 99,23 Q92,30 78,33.5" fill="none" stroke="#2DD4BF" stroke-width="1.1" opacity="0.7"/>
+
+        <!-- cockpit window -->
+        <circle cx="70" cy="23" r="6.4" fill="#0B1120" stroke="#2DD4BF" stroke-width="1.4"/>
+        <circle cx="67.8" cy="20.8" r="1.9" fill="#EDEFF5" opacity="0.7"/>
+
+        <!-- body stripe -->
+        <path d="M40,20.5 L64,17.5" stroke="#E8A33D" stroke-width="1.6" stroke-linecap="round" opacity="0.85"/>
+        <path d="M40,25.5 L64,28.5" stroke="#E8A33D" stroke-width="1.6" stroke-linecap="round" opacity="0.85"/>
       </svg>
       <span class="spark s1"></span>
       <span class="spark s2"></span>
       <span class="spark s3"></span>
+      <span class="spark s4"></span>
+      <span class="spark s5"></span>
     </div>
   </div>
 </div>
@@ -684,6 +736,10 @@
   var progressFill = document.getElementById('progressFill');
   var rocketOuter = document.getElementById('rocketOuter');
   var rocketBob = document.getElementById('rocketBob');
+  var flameOuter = rocketBob.querySelector('.flame-outer');
+  var flameMid = rocketBob.querySelector('.flame-mid');
+  var flameCore = rocketBob.querySelector('.flame-core');
+  var rocketSvgEl = rocketBob.querySelector('.rocket-svg');
 
   function syncOffset(){
     document.body.style.paddingTop = topFixed.offsetHeight + 'px';
@@ -692,13 +748,92 @@
   window.addEventListener('resize', syncOffset);
 
   var lastScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  var lastTime = performance.now();
   var idleTimer = null;
   var ticking = false;
 
   function trackWidth(){ return progressTrack.clientWidth; }
 
+  /* ---- scroll-hardness -> thrust ---- */
+  var wheelBoost = 0;   // instant kick from wheel/trackpad force
+  var targetThrust = 0; // instant kick from scroll velocity
+  var currentThrust = 0;// smoothed value actually applied
+
+  window.addEventListener('wheel', function(e){
+    var mag = Math.min(Math.abs(e.deltaY), 140) / 140; // 0..1, harder flick = closer to 1
+    wheelBoost = Math.max(wheelBoost, mag);
+  }, {passive:true});
+
+  function applyThrust(t){
+    flameOuter.style.opacity = (0.55 + t*0.45).toFixed(2);
+    flameOuter.style.transform = 'scaleX(' + (1 + t*1.35).toFixed(2) + ')';
+    flameMid.style.opacity = (0.7 + t*0.3).toFixed(2);
+    flameMid.style.transform = 'scaleX(' + (1 + t*1.05).toFixed(2) + ')';
+    flameCore.style.opacity = (0.75 + t*0.25).toFixed(2);
+    flameCore.style.transform = 'scale(' + (1 + t*0.7).toFixed(2) + ')';
+    rocketSvgEl.style.filter =
+      'drop-shadow(0 3px 6px rgba(0,0,0,.55)) drop-shadow(0 0 ' +
+      (4 + t*16).toFixed(1) + 'px rgba(45,212,191,' + (0.25 + t*0.55).toFixed(2) + '))';
+  }
+
+  function spawnIonSpark(t){
+    var el = document.createElement('span');
+    var size = 1.6 + Math.random()*2 + t*2.6;
+    var startLeft = 10 + Math.random()*14;
+    var startTop = 6 + Math.random()*20;
+    el.style.position = 'absolute';
+    el.style.width = size + 'px';
+    el.style.height = size + 'px';
+    el.style.left = startLeft + 'px';
+    el.style.top = startTop + 'px';
+    el.style.borderRadius = '50%';
+    el.style.background = '#fff';
+    el.style.pointerEvents = 'none';
+    el.style.boxShadow = '0 0 ' + (3 + t*6).toFixed(1) + 'px 1px rgba(255,255,255,.9)';
+    rocketBob.appendChild(el);
+
+    var driftX = -(18 + t*60 + Math.random()*22);
+    var driftY = (Math.random()-0.5) * (10 + t*14);
+    var dur = Math.max(260, 620 - t*260 + Math.random()*200);
+
+    if (el.animate){
+      var anim = el.animate([
+        { opacity:0, transform:'translate(0,0) scale(1)' },
+        { opacity: Math.min(1, 0.65 + t*0.35), offset:0.16 },
+        { opacity:0, transform:'translate(' + driftX + 'px,' + driftY + 'px) scale(0.25)' }
+      ], { duration: dur, easing:'ease-out' });
+      anim.onfinish = function(){ if (el.parentNode) el.parentNode.removeChild(el); };
+    } else {
+      setTimeout(function(){ if (el.parentNode) el.parentNode.removeChild(el); }, dur);
+    }
+  }
+
+  var sparkTimer = 0;
+
+  function thrustFrame(dt){
+    wheelBoost *= 0.90;
+    targetThrust *= 0.90;
+    var want = Math.max(wheelBoost, targetThrust);
+    currentThrust += (want - currentThrust) * 0.18;
+    if (currentThrust < 0.01) currentThrust = 0;
+    applyThrust(currentThrust);
+
+    sparkTimer -= dt;
+    if (sparkTimer <= 0){
+      if (currentThrust > 0.05){
+        spawnIonSpark(currentThrust);
+        sparkTimer = 260 - currentThrust*210; // harder scroll -> more frequent sparks
+      } else {
+        sparkTimer = 180;
+      }
+    }
+  }
+
   function update(){
     ticking = false;
+    var now = performance.now();
+    var dt = Math.max(1, now - lastTime);
+
     var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     var docHeight = document.documentElement.scrollHeight - window.innerHeight;
     var percent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
@@ -707,7 +842,7 @@
     progressFill.style.width = percent + '%';
 
     var w = trackWidth();
-    var clampPct = Math.max(2.2, Math.min(97.8, percent));
+    var clampPct = Math.max(0.4, Math.min(99.6, percent));
     rocketOuter.style.left = clampPct + '%';
 
     var delta = scrollTop - lastScrollTop;
@@ -718,7 +853,13 @@
         rocketOuter.classList.remove('flip');
       }
     }
+
+    // scroll "hardness" = how much distance covered per millisecond
+    var velocity = Math.abs(delta) / dt; // px per ms
+    targetThrust = Math.max(targetThrust, Math.min(1, velocity / 2.2));
+
     lastScrollTop = scrollTop;
+    lastTime = now;
 
     rocketBob.classList.remove('idle');
     if (idleTimer) clearTimeout(idleTimer);
@@ -733,6 +874,15 @@
       ticking = true;
     }
   }, {passive:true});
+
+  var lastFrameTime = performance.now();
+  function loop(now){
+    var dt = now - lastFrameTime;
+    lastFrameTime = now;
+    thrustFrame(dt);
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
 
   update();
   idleTimer = setTimeout(function(){ rocketBob.classList.add('idle'); }, 550);
